@@ -1,0 +1,84 @@
+﻿<Window x:Class="PingLatencyMonitor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.CommandBindings>
+        <CommandBinding Command="New" CanExecute="Ping_CanExecute" Executed="Ping_Execute"></CommandBinding>
+    </Window.CommandBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="78"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Margin="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="80" />
+            </Grid.ColumnDefinitions>
+
+            <Label Content="Target" />
+            <TextBox Grid.Column="1" Text="{Binding PingTarget}" IsEnabled="{Binding IsNotRunning}" />
+            <Button Grid.Column="2" Command="New" Content="{Binding ButtonText}" />
+        </Grid>
+        
+        <Border Grid.Row="1" BorderThickness=".5" BorderBrush="{Binding LastReply.BorderBrush}" Background="{Binding LastReply.BackgroundBrush}">
+            <Viewbox>
+                <TextBlock x:Name="TextBlockLatency" Text="{Binding LastReply.Latency}" />
+            </Viewbox>
+        </Border>
+        
+        <ItemsControl Grid.Row="2" ItemsSource="{Binding PingReplies}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel  />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="{Binding BackgroundBrush}" Padding="4" Margin="4" Width="64">
+                        <TextBlock TextAlignment="Right" FontSize="16" Text="{Binding Latency}" />
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="16" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            
+            <TextBlock Text="Average" Margin="4 0" />
+            <Border Grid.Row="1" Grid.Column="0" Background="#64B5F6" Margin="4 0 4 4">
+                <Viewbox>
+                    <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                        <TextBlock Text="ms" />
+                        <TextBlock Text="{Binding LatencyAverage}" />
+                    </StackPanel>
+                </Viewbox>
+            </Border>
+            
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="Packet Loss" Margin="4 0" />
+            <Border Grid.Row="1" Grid.Column="1" Background="#64B5F6" Margin="4 0 4 4">
+                <Viewbox>
+                    <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                        <TextBlock Text="%" />
+                        <TextBlock Text="{Binding LossPercentage, StringFormat=#.}" />
+                    </StackPanel>
+                </Viewbox>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
