@@ -22,7 +22,7 @@ namespace PingLatencyMonitor
         {
             InitializeComponent();
 
-            PingTarget = "8.8.8.8";
+            PingTarget = "google.com";
             PingReplies = new ObservableCollection<PingReplyWrapper>();
             LatencyAverage = 0;
             LossPercentage = 0;
@@ -178,6 +178,15 @@ namespace PingLatencyMonitor
         {
             if (IsRunning) StopPing();
             else StartPing();
+        }
+
+        private void MainWindow_OnClosed(object sender, EventArgs e)
+        {
+            if (IsRunning)
+            {
+                IsRunning = false;
+                _ping.SendAsyncCancel();
+            }
         }
     }
 }
