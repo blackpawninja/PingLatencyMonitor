@@ -85,7 +85,7 @@ namespace PingLatencyMonitor
 
             var allCount = (double)PingReplies.Count;
             
-            LossPercentage = (lossCount / allCount) * 100;
+            LossPercentage = (int)((lossCount / allCount) * 100);
         }
         
         public event PropertyChangedEventHandler PropertyChanged;
@@ -158,8 +158,8 @@ namespace PingLatencyMonitor
             }
         }
 
-        private double _lossPercentage;
-        public double LossPercentage
+        private int _lossPercentage;
+        public int LossPercentage
         {
             get { return _lossPercentage; }
             set
@@ -182,11 +182,7 @@ namespace PingLatencyMonitor
 
         private void MainWindow_OnClosed(object sender, EventArgs e)
         {
-            if (IsRunning)
-            {
-                IsRunning = false;
-                _ping.SendAsyncCancel();
-            }
+            if (IsRunning) StopPing();
         }
     }
 }

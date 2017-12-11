@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Closed="MainWindow_OnClosed"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Ping Latency Monitor" Height="350" Width="525">
     <Window.CommandBindings>
         <CommandBinding Command="New" CanExecute="Ping_CanExecute" Executed="Ping_Execute"></CommandBinding>
     </Window.CommandBindings>
@@ -76,7 +76,7 @@
                 <Viewbox>
                     <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
                         <TextBlock Text="%" />
-                        <TextBlock Text="{Binding LossPercentage, StringFormat=#.}" />
+                        <TextBlock Text="{Binding LossPercentage}" />
                     </StackPanel>
                 </Viewbox>
             </Border>
